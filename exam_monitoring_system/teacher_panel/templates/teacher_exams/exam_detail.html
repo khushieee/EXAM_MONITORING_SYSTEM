@@ -1,0 +1,89 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Exams {% endblock title %}
+
+{% block head %}
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #4a4a4a;
+        }
+        .exam-detail {
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .exam-detail p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .exam-detail p strong {
+            font-weight: bold;
+        }
+        .back-link, .edit-button {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #007bff;
+            text-align: center;
+        }
+        .edit-button {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_exams/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="container">
+        <h1>Exam Detail</h1>
+        <div class="exam-detail">
+            <p><strong>Name:</strong> {{ exam.name }}</p>
+            <p><strong>Course:</strong> {{ exam.course }}</p>
+            <p><strong>Description:</strong> {{ exam.description }}</p>
+            <p><strong>Date:</strong> {{ exam.date.date }}</p>
+            <p><strong>Duration:</strong> {{ exam.duration }} Minutes</p>
+        </div>
+        <a href="{% url 'teacher_exam_list' teacher.pk %}" class="back-link">Back to Exam List</a>
+        <a href="{% url 'teacher_exam_update' teacher.pk exam.pk %}" class="edit-button">Edit</a>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}

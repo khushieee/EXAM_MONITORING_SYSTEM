@@ -1,0 +1,123 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Question List {% endblock title %}
+
+{% block head %}
+<style>
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        line-height: 1.6;
+    }
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
+    .container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #4a4a4a;
+    }
+    p {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 18px;
+        color: #666;
+    }
+    .question-group h2 {
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: #333;
+    }
+    .card {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .card h3 {
+        margin-top: 0;
+        font-size: 18px;
+        color: #4a4a4a;
+    }
+    .options {
+        margin-top: 10px;
+    }
+    .option {
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+    .detail-link {
+        display: block;
+        margin-top: 20px;
+        padding: 10px;
+        text-decoration: none;
+        color: #4CAF50;
+        border: 1px solid #4CAF50;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 14px;
+    }
+    .detail-link:hover {
+        background-color: #4CAF50;
+        color: #fff;
+    }
+</style>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_questions/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+<div class="container">
+    <h1>Questions for Exam: {{ exam }}</h1>
+    <p>Teacher: {{ teacher.name }}</p>
+
+    <div class="question-group">
+        <h2>Questions</h2>
+        {% for question in questions %}
+        <div class="card">
+            <h3>{{ forloop.counter }}. {{ question.text }}</h3>
+            <div class="options">
+                {% if question.option1 %}
+                <div class="option"><strong>Option 1:</strong> {{ question.option1 }}</div>
+                {% endif %}
+                {% if question.option2 %}
+                <div class="option"><strong>Option 2:</strong> {{ question.option2 }}</div>
+                {% endif %}
+                {% if question.option3 %}
+                <div class="option"><strong>Option 3:</strong> {{ question.option3 }}</div>
+                {% endif %}
+                {% if question.option4 %}
+                <div class="option"><strong>Option 4:</strong> {{ question.option4 }}</div>
+                {% endif %}
+            </div>
+            <a href="{% url 'teacher_question_detail' teacher.pk question.pk %}" class="detail-link">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}

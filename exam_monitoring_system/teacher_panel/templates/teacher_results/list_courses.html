@@ -1,0 +1,32 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Results {% endblock title %}
+
+{% block head %}
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_results/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="grid-container">
+        {% for class_course in class_course_s %}
+        <div class="grid-item" style="background-color: #7cb342;">
+            <a href="{% url 'list_course_exams' teacher.pk class_course.class.pk class_course.course.pk %}">
+                <i class="fas fa-list fa-3x"></i>
+                <p style="font-size: medium;">Class: {{ class_course.class }}</p>
+                <h2>{{ class_course.course }}</h2>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}
