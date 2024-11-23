@@ -1,0 +1,85 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Classes {% endblock title %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "classes/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block style %}
+    <style>
+        .class-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .class-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .add-new-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .class-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .class-item {
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .class-link {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .edit-link {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .delete-link {
+            text-decoration: none;
+            color: #dc3545;
+        }
+    </style>
+{% endblock style %}
+
+{% block main %}
+    <div class="class-container">
+        <h1 class="class-heading">Class List</h1>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="{% url 'class_create' %}" class="add-new-link">Add New Class</a>
+        </div>
+        <ul class="class-list">
+            {% for class_obj in classes %}
+                <li class="class-item">
+                    <a href="{% url 'class_detail' class_obj.pk %}" class="class-link">{{ class_obj.name }}</a> -
+                    <a href="{% url 'class_update' class_obj.pk %}" class="edit-link">Edit</a> |
+                    <a href="{% url 'class_delete' class_obj.pk %}" class="delete-link">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

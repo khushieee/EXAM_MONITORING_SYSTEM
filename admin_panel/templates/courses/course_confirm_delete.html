@@ -1,0 +1,67 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Courses {% endblock title %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "courses/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block style %}
+    <style>
+        .confirm-container {
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .confirm-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .confirm-form {
+            display: inline-block;
+        }
+
+        .confirm-button {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+    </style>
+{% endblock style %}
+
+{% block main %}
+    <div class="confirm-container">
+        <h1 class="confirm-heading">Are you sure you want to delete {{ course.name }}?</h1>
+        <div>
+            <form method="post" class="confirm-form">
+                {% csrf_token %}
+                <button type="submit" class="confirm-button">Yes, delete</button>
+            </form>
+            <a href="{% url 'course_list' %}" class="cancel-button">Cancel</a>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

@@ -1,0 +1,109 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} 
+    Student Detail
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .main-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .detail-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .detail-container p {
+            font-family: Arial, sans-serif;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .registered-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .action-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+        }
+
+        .action-link + .action-link {
+            margin-left: 10px;
+        }
+
+        .captured-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .captured-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "students/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1 class="main-heading">Student Detail</h1>
+    <div class="detail-container">
+        <p><strong>ID:</strong> {{ student.unique_id }}</p>
+        <p><strong>Name:</strong> {{ student.name }}</p>
+        <p><strong>Phone:</strong> {{ student.phone }}</p>
+        <p><strong>Class:</strong> {{ student.class_id }}</p>
+        {% if face_image_base64 %}
+            <p>
+                <strong>Registered Face: </strong>
+                <img src="data:image/jpeg;base64,{{ face_image_base64 }}" alt="Student Face Image" class="registered-image"/>
+            </p>
+        {% endif %}
+        <div>
+            <h2>Face Images Captured During Each Exam</h2>
+            {% for capture in captured %}
+                <p><strong>Exam:</strong> {{ capture.exam.name }}</p>
+                <div class="captured-images">
+                    {% for image in capture.images %}
+                        <img src="../../../media/{{ image }}" alt="Captured Motion Image" class="captured-image">
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'student_list' %}" class="action-link">Back to Student List</a>
+        <a href="{% url 'student_update' student.pk %}" class="action-link">Edit</a>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

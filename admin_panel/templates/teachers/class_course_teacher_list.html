@@ -1,0 +1,70 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} 
+    Class-Course-Teacher Assignments 
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .main-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .assignment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .assignment-table th, .assignment-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .assignment-table th {
+            background-color: #f2f2f2;
+        }
+
+        .assignment-table tr {
+            border: 1px solid #ddd;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teachers/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1 class="main-heading">Class-Course-Teacher Assignments</h1>
+    <table class="assignment-table">
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Course</th>
+                <th>Teacher</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+                <tr>
+                    <td>{{ assignment.class_id.name }}</td>
+                    <td>{{ assignment.course_id.name }}</td>
+                    <td>{{ assignment.teacher_id.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

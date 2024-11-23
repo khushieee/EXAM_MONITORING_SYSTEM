@@ -1,0 +1,32 @@
+<div class="grid-container">
+    <a href="{% url 'teacher_list' %}">
+        <div class="grid-item" style="background-color: #7cb342;">
+            <i class="fas fa-chalkboard-teacher fa-3x"></i>
+            <h2>All Teachers</h2>
+        </div>
+    </a>
+    <a href="{% url 'teacher_create' %}">
+        <div class="grid-item" style="background-color: #42a5f5;">
+            <i class="fas fa-user-plus fa-3x"></i>
+            <h2>Add Teacher</h2>
+        </div>
+    </a>
+    <a href="{% url 'teacher_assign2class' %}">
+        <div class="grid-item" style="background-color: #8d6e63;">
+            <i class="fas fa-book-reader fa-3x"></i>
+            <h2>Assign Teachers to Classes</h2>
+        </div>
+    </a>
+    <a href="{% url 'select_teacher' %}">
+        <div class="grid-item" style="background-color: #0d6f63;">
+            <i class="fas fa-book-open fa-3x"></i>
+            <h2>Assign Courses to Teachers</h2>
+        </div>
+    </a>
+    <a href="{% url 'class_course_teacher_list' %}">
+        <div class="grid-item" style="background-color: #996a99;">
+            <i class="fas fa-list-alt fa-3x"></i>
+            <h2>Class-Course-Teacher Assignments</h2>
+        </div>
+    </a>
+</div>

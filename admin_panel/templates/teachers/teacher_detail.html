@@ -1,0 +1,95 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Teachers {% endblock title %}
+
+{% block style %}
+    <style>
+        .main-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .detail-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .detail-item {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .assigned-classes {
+            margin-bottom: 10px;
+        }
+
+        .assigned-class {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #9fefef;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .action-button-secondary {
+            background-color: #28a745;
+            color: #fff;
+            margin-left: 20px;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teachers/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1 class="main-heading">Teacher Detail</h1>
+    <div class="detail-container">
+        <p class="detail-item"><strong>ID:</strong> {{ teacher.teacher_id }}</p>
+        <p class="detail-item"><strong>Name:</strong> {{ teacher.name }}</p>
+        <p class="detail-item"><strong>Phone:</strong> {{ teacher.phone }}</p>
+        <p class="detail-item"><strong>Classes Assigned:</strong></p>
+        <p class="assigned-classes">
+            {% for class in teacher.classes.all %}
+                <span class="assigned-class">{{ class.name }}</span>
+            {% endfor %}
+        </p>
+        <p class="detail-item"><strong>Password:</strong> {{ teacher.password }}</p>
+        <div class="action-buttons">
+            <a href="{% url 'teacher_list' %}" class="action-button action-button-primary">Back to Teacher List</a>
+            <a href="{% url 'teacher_update' teacher.pk %}" class="action-button action-button-secondary">Edit</a>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

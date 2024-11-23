@@ -1,0 +1,84 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} 
+    Students 
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .main-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .add-student-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+        }
+
+        .student-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .student-item {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .student-link {
+            text-decoration: none;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        .edit-link {
+            text-decoration: none;
+            color: #4CAF50;
+            font-family: Arial, sans-serif;
+        }
+
+        .delete-link {
+            text-decoration: none;
+            color: #f44336;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "students/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1 class="main-heading">Student List</h1>
+    <a href="{% url 'student_create' %}" class="add-student-btn">Add New Student</a>
+    <ul class="student-list">
+        {% for student in students %}
+            <li class="student-item">
+                <a href="{% url 'student_detail' student.pk %}" class="student-link">{{ student.name }}</a> -
+                <a href="{% url 'student_update' student.pk %}" class="edit-link">Edit</a> | 
+                <a href="{% url 'student_delete' student.pk %}" class="delete-link">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

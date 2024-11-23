@@ -1,0 +1,126 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} 
+    Students 
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .main-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-family: Arial, sans-serif;
+            color: #555;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .sub-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .students-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .student-checkbox {
+            margin-right: 10px;
+        }
+
+        .student-label {
+            font-family: Arial, sans-serif;
+            color: #555;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "students/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1 class="main-heading">Assign Students to Class</h1>
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            <label for="class_id" class="form-label">Select Class:</label>
+            <select name="class_id" id="class_id" class="form-select">
+                {% for class in classes %}
+                    <option value="{{ class.pk }}">{{ class.name }}</option>
+                {% endfor %}
+            </select>
+
+            <h2 class="sub-heading">Select Students:</h2>
+            <div class="students-container">
+                {% for student in students %}
+                    <div>
+                        <input type="checkbox" id="student_{{ student.pk }}" name="students" value="{{ student.pk }}" class="student-checkbox">
+                        <label for="student_{{ student.pk }}" class="student-label">{{ student.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="submit-button">Assign</button>
+        </form>
+    </div>
+    <a href="{% url 'student_list' %}" class="back-link">Back to Student List</a>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

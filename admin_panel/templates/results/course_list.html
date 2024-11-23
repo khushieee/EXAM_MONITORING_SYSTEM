@@ -1,0 +1,31 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Results {% endblock title %}
+
+{% block style %}
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "results/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    {% for course in courses %}
+        <div class="grid-container">
+            <a href="{% url 'admin_results_list_exams' class.pk course.pk %}">
+                <div class="grid-item" style="background-color: #7cb342;">
+                    <i class="fas fa-file-alt fa-3x"></i>
+                    <h2>{{ course.name }}</h2>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

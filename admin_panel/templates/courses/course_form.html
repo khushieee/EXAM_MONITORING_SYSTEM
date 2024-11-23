@@ -1,0 +1,62 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Courses {% endblock title %}
+
+{% block style %}
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .form-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-wrapper {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-field {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "courses/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="form-container">
+        <h1 class="form-heading">Course Form</h1>
+        <form method="post" class="form-wrapper">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="form-field">Save</button>
+        </form>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

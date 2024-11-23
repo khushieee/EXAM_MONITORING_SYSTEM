@@ -1,0 +1,14 @@
+{% load static %}
+<div class="admin_profile">
+    <img src="{% static "images/admin.png" %}"/>
+    <h2>Admin</h2>
+</div>
+<br/>
+<ul class="sections">
+    <li><a href="{% url "dashboard" %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+    <li><a href="{% url "teachers" %}"><i class="fas fa-chalkboard-teacher"></i> Teacher</a></li>
+    <li><a href="{% url "students" %}"><i class="fas fa-user-graduate"></i> Student</a></li>
+    <li><a href="{% url "classes" %}"><i class="fas fa-school"></i> Classes</a></li>
+    <li><a href="{% url "courses" %}"><i class="fas fa-book"></i> Courses</a></li>
+    <li><a href="{% url "results" %}" class="current_nav"><i class="fas fa-file-alt"></i> Results</a></li>
+</ul>

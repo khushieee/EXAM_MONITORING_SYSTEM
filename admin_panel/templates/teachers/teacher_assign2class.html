@@ -1,0 +1,103 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} 
+    Teachers 
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .main-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .class-checkbox {
+            margin-bottom: 10px;
+        }
+
+        .assign-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cancel-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teachers/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1 class="main-heading">Assign Teachers to Class</h1>
+    <form method="post" class="form-container">
+        {% csrf_token %}
+        <label for="teacher_id" class="form-label">Select Teacher:</label>
+        <select name="teacher_id" id="teacher_id" class="form-select">
+            {% for teacher in teachers %}
+                <option value="{{ teacher.pk }}">{{ teacher.name }}</option>
+            {% endfor %}
+        </select>
+
+        <h2 class="form-label">Select Classes:</h2>
+        {% for class in classes %}
+            <div class="class-checkbox">
+                <input type="checkbox" id="class_{{ class.pk }}" name="classes" value="{{ class.pk }}" style="margin-right: 10px;">
+                <label for="class_{{ class.pk }}" style="font-size: 16px;">{{ class.name }}</label>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="assign-button">Assign</button>
+    </form>
+    <a href="{% url 'teacher_list' %}" class="cancel-link">Back to Teacher List</a>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

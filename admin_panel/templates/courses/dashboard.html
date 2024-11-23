@@ -1,0 +1,19 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Courses {% endblock title %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "courses/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    {% include "courses/main.html" %}
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

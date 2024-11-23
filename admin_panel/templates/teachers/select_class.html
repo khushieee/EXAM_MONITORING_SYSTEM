@@ -1,0 +1,82 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} 
+    Select Class 
+{% endblock title %}
+
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#id_teacher').change(function() {
+                var teacherId = $(this).val();
+                $.ajax({
+                    url: "{% url 'load_classes' %}",
+                    data: {
+                        'teacher_id': teacherId
+                    },
+                    success: function(data) {
+                        $("#id_class_id").html("");
+                        $.each(data, function(key, value) {
+                            $("#id_class_id").append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock head %}
+
+{% block style %}
+    <style>
+        .main-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .form-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teachers/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1 class="main-heading">Select Class for {{ teacher.name }}</h1>
+    <form method="post" class="form-container">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="form-button">Next</button>
+    </form>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

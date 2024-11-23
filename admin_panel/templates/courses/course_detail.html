@@ -1,0 +1,71 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Courses {% endblock title %}
+
+{% block style %}
+    <style>
+        .detail-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .detail-heading {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .detail-wrapper {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .detail-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .detail-link-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .detail-link-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+    </style>
+{% endblock style %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "courses/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="detail-container">
+        <h1 class="detail-heading">Course Detail</h1>
+        <div class="detail-wrapper">
+            <p><strong style="font-weight: bold; color: #007bff;">ID:</strong> {{ course.course_id }}</p>
+            <p><strong style="font-weight: bold; color: #007bff;">Name:</strong> {{ course.name }}</p>
+            <div style="margin-top: 20px;">
+                <a href="{% url 'course_list' %}" class="detail-link detail-link-primary">Back to Course List</a>
+                <a href="{% url 'course_update' course.pk %}" class="detail-link detail-link-success">Edit</a>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}

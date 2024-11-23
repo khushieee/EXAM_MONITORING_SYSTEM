@@ -1,0 +1,94 @@
+{% extends "dashboard/index.html" %}
+
+{% block title %} Classes {% endblock title %}
+
+{% block header %}
+    {% include "dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "classes/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block style %}
+    <style>
+        .detail-container {
+            max-width: 600px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .detail-heading {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .detail-code {
+            background-color: #9fefef;
+            padding: 4px;
+            margin-right: 4px;
+            border-radius: 4px;
+        }
+
+        .detail-actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .detail-action-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .detail-action-btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .detail-action-btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .detail-action-btn-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .detail-action-btn-success:hover {
+            background-color: #218838;
+        }
+    </style>
+{% endblock style %}
+
+{% block main %}
+    <div class="detail-container">
+        <h1 class="detail-heading">Class Detail</h1>
+        <div class="detail-card">
+            <p><strong>ID:</strong> {{ class.unique_id }}</p>
+            <p><strong>Name:</strong> {{ class.name }}</p>
+            <p><strong>Courses:</strong>
+                {% for course in class.courses.all %}
+                    <code class="detail-code">{{ course.name }}</code>
+                {% endfor %}
+            </p>
+            <div class="detail-actions">
+                <a href="{% url 'class_list' %}" class="detail-action-btn detail-action-btn-primary">Back to Class List</a>
+                <a href="{% url 'class_update' class.pk %}" class="detail-action-btn detail-action-btn-success">Edit</a>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "dashboard/footer.html" %}
+{% endblock footer %}
