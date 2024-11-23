@@ -1,0 +1,10 @@
+<div class="grid-container">
+    {% for exam in exams %}
+        <a href="{% url 'student_result_view' student.pk exam.pk %}">
+            <div class="grid-item" style="background-color: #7cb342;">
+                <i class="fas fa-graduation-cap fa-3x"></i>
+                <h2>{{ exam.name }}</h2>
+            </div>
+        </a>
+    {% endfor %}
+</div>

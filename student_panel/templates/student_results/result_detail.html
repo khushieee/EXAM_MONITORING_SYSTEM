@@ -1,0 +1,72 @@
+{% extends "student_dashboard/index.html" %}
+
+{% block title %} {{exam.name}} Result {% endblock title %}
+
+{% block head %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .result-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .question p {
+            margin-bottom: 10px;
+        }
+        .correct-answer {
+            color: #4caf50;
+        }
+        .wrong-answer {
+            color: #f44336;
+        }
+    </style>
+{% endblock head %}
+
+{% block header %}
+    {% include "student_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "student_results/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="result-container">
+        <h1>Exam Result</h1>
+        <p><strong>Total Correct Answers:</strong> {{ total_correct }}</p>
+        <p><strong>Total Wrong Answers:</strong> {{ total_wrong }}</p>
+        <p><strong>Percentage Score:</strong> {{ percentage_score }}%</p>
+        
+        <h2>Question-wise Details:</h2>
+        {% for question in questions %}
+            <div class="question">
+                <p><strong>Question:</strong> {{ question.text }}</p>
+                <p><strong>Correct Answer:</strong> <span class="correct-answer">{{ question.correct_option }}</span></p>
+                <p><strong>Your Answer:</strong> {% if question.selected_option == question.correct_option %}
+                    <span class="correct-answer">{{ question.selected_option }}</span>
+                    {% else %}
+                    <span class="wrong-answer">{{ question.selected_option }}</span>
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "student_dashboard/footer.html" %}
+{% endblock footer %}

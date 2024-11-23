@@ -1,0 +1,194 @@
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+    height: 100%;
+    width: 220px;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    background-color: #101b21;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-top: 20px;
+}
+
+.main {
+    margin-left: 215px;
+    margin-top: 75px;
+    font-size: 28px;
+    padding: 20px 10px;
+    width: 1220px;
+    height: 570px;
+    overflow-y: scroll;
+    background-color: #f0f0f0;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+/* Style for the header */
+header {
+    position: fixed;
+    background-color: #232429;
+    height: 50px;
+    /* width: 1230px; */
+    width: 100%;
+    padding: 10px;
+    top: 0;
+    left: 0;
+    /* left: 220px; Corrected: Added 'px' for left positioning */
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Space out elements evenly */
+    align-items: center; /* Center items vertically */
+    /* padding: 0 20px; Adjusted padding for left and right */
+    color: white; /* Text color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a slight 3D effect */
+    z-index: 1000; /* Ensure header is above other content */
+}
+
+
+/* Style for the heading */
+header h1 {
+    margin: 0; /* Remove default margin */
+    font-size: 1.8em; /* Font size */
+}
+
+/* Style for the button */
+header button {
+    padding: 10px 20px; /* Add padding to the button */
+    background-color: #1db0d6; /* Background color for button */
+    color: white; /* Text color for button */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 1em; /* Font size */
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+/* Optional: add hover effect for button */
+header a:hover {
+    background-color: #1db0d6; /* Darker red on hover */
+}
+
+footer {
+    background-color: #232429;
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    color: white;
+    text-align: center;
+    z-index: -1;
+    left: 0;
+}
+
+.admin_profile img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    margin-left: 60px;
+    margin-top: 80px;
+}
+
+.admin_profile h2 {
+    color: white;
+    text-align: center;
+}
+
+.sections li a {
+    border-radius: 50px;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    color: whitesmoke;
+    display: block;
+    text-align: left;
+    width: 130px;
+}
+
+.sections li a i {
+    margin-right: 10px;
+}
+
+.sections li {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 0;
+    display: block;
+    margin-top: 10px;
+    align-self: center;
+}
+
+.sections li a:hover {
+    color: white;
+}
+
+/* Style for the grid container */
+.main .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(2, 200px); /* 2 rows with 200px height each */
+    gap: 20px; /* Space between grid items */
+    padding: 20px 20px 20px; /* Padding around the grid */
+    background-color: #f0f0f0; /* Background color for the grid container */
+    border-radius: 10px;
+}
+
+.grid-container a {
+    text-decoration: none; /* Remove underline from the link */
+    display: block; /* Make the link block-level */
+    color: inherit; /* Inherit color from the parent */
+}
+
+/* Style for each grid item */
+.grid-item {
+    color: white; /* Text color */
+    padding: 20px; /* Padding inside each grid item */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a slight 3D effect */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    text-align: center; /* Center text */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Hover effect for each grid item */
+.grid-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the heading inside each grid item */
+.grid-item h2 {
+    font-size: 0.7em; /* Font size */
+    text-decoration: none;
+    color: red;
+}
+
+.grid-item i {
+    font-size: 1.5em;
+    margin-top: 30px;
+}
+
+.grid-item .item-content {
+    font-size: 1em; /* Larger font size for content */
+    font-weight: bold; /* Bold text for emphasis */
+    margin-top: 0;
+}
+
+.current_nav {
+    background-color: #232429;
+    color: white;
+}

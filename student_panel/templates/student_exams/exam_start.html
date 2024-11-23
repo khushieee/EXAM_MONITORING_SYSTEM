@@ -1,0 +1,199 @@
+{% extends "student_dashboard/index.html" %}
+
+{% block title %} Take Exam {% endblock title %}
+
+{% block head %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .container h1 {
+        text-align: center;
+        color: #333;
+    }
+    .exam-questions {
+        margin: 20px 0;
+    }
+    .exam-questions p {
+        font-size: 1.1em;
+        color: #555;
+    }
+    .question {
+        margin-bottom: 20px;
+    }
+    .timer {
+        text-align: center;
+        font-size: 1.5em;
+        color: red;
+        margin-bottom: 20px;
+    }
+    .submit-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .submit-button:hover {
+        background-color: #45a049;
+    }
+    
+    #video {
+        border: 2px solid red;
+    }
+</style>
+<script>
+    function startTimer(duration, display) {
+        var timer = duration, minutes, seconds;
+        var interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(interval);  // Clear the interval to stop the timer
+                document.getElementById("exam-form").submit();
+            }
+        }, 1000);
+    }
+
+    window.onload = function () {
+        var duration = parseInt("{{ exam.duration|default:0 }}");  // Use default filter to handle null values
+        if (duration > 0) {
+            duration = duration * 60;  // Convert minutes to seconds
+            var display = document.querySelector('#time');
+            startTimer(duration, display);
+        } else {
+            // Handle case where duration is not set or invalid
+            document.querySelector('#time').textContent = "No time limit";
+        }
+    };
+</script>
+{% endblock head %}
+
+{% block header %}
+    {% include "student_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "student_exams/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+<div class="container">
+    <h1>Take Exam</h1>
+    <div class="timer">Time Remaining: <span id="time">00:00</span></div>
+    <video id="video" width="640" height="480" autoplay></video>
+    <form id="exam-form" method="post" action="{% url 'student_exam_submit' student.pk exam.pk %}">
+        {% csrf_token %}
+        <div class="exam-questions">
+            {% for question in questions %}
+                <div class="question">
+                    <p><strong>{{ question.text }}</strong></p>
+                    {% if question.question_type == 'MCQ' %}
+                            <label><input type="radio" name="question_{{ question.pk }}" value="option1"> {{ question.option1 }}</label><br>
+                            <label><input type="radio" name="question_{{ question.pk }}" value="option2"> {{ question.option2 }}</label><br>
+                            <label><input type="radio" name="question_{{ question.pk }}" value="option3"> {{ question.option3 }}</label><br>
+                            <label><input type="radio" name="question_{{ question.pk }}" value="option4"> {{ question.option4 }}</label><br>
+                    {% elif question.question_type == 'TF' %}
+                        <label><input type="radio" name="question_{{ question.pk }}" value="True"> True</label><br>
+                        <label><input type="radio" name="question_{{ question.pk }}" value="False"> False</label><br>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="submit-button">Submit Exam</button>
+    </form>
+</div>
+
+<script>
+    const video = document.getElementById('video');
+    const constraints = { video: true };
+
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {
+            video.srcObject = stream;
+        })
+        .catch((err) => {
+            console.error('Error accessing webcam: ' + err);
+        });
+
+    let lastImageData;
+    const canvas = document.createElement('canvas');
+    canvas.width = 640;
+    canvas.height = 480;
+    const context = canvas.getContext('2d');
+    let counter = 0;
+
+    function checkForMotion() {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+        if (lastImageData) {
+            const diff = pixelDiff(imageData.data, lastImageData.data);
+            if (diff > 4) {
+                // Capture the image and send to the server
+                sendMotionImage(counter);
+                counter++;
+            }
+        }
+
+        lastImageData = imageData;
+        requestAnimationFrame(checkForMotion);
+    }
+
+    function pixelDiff(data1, data2) {
+        let diff = 0;
+        for (let i = 0; i < data1.length; i += 4) {
+            diff += Math.abs(data1[i] - data2[i]);
+        }
+        return diff / data1.length;
+    }
+
+    function sendMotionImage(counter) {
+        canvas.toBlob((blob) => {
+            const formData = new FormData();
+            formData.append('motion_image', blob, `${counter}.png`);
+            formData.append('exam_id', '{{exam.pk}}')
+
+            fetch('/studentpanel/{{student.pk}}/motion-detected/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }, 'image/png');
+    }
+
+    checkForMotion();
+</script>
+{% endblock main %}
+
+{% block footer %}
+    {% include "student_dashboard/footer.html" %}
+{% endblock footer %}
