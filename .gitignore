@@ -1,0 +1,17 @@
+# Ignore migration files
+*/migrations/
+
+# Ignore Python compiled files
+*.pyc
+__pycache__/
+
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore database files
+*.sqlite3
+
+# Ignore media/uploads
+media/
+motion/
