@@ -1,0 +1,72 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Confirm Delete Question {% endblock title %}
+
+{% block head %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container h1 {
+            text-align: center;
+            color: #333;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #4CAF50;
+            cursor: pointer;
+        }
+        .buttons button.delete {
+            background-color: #f44336;
+        }
+    </style>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_questions/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="container">
+        <h1>Confirm Delete</h1>
+        <div class="card">
+            <p>Are you sure you want to delete the question: <strong>{{ question.text }}</strong>?</p>
+            <div class="buttons">
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="delete">Delete</button>
+                    <a href="{% url 'teacher_question_detail' teacher_id=teacher.pk question_id=question.pk %}"><button type="button">Cancel</button></a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}

@@ -1,0 +1,197 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %}
+    {% if update %} Update Question {% else %} Create Question {% endif %}
+{% endblock title %}
+
+{% block head %}
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 70%;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #4a4a4a;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .form-group input[type="radio"] {
+            margin-right: 10px;
+        }
+        .form-group input[type="radio"] + label {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: normal;
+            color: #666;
+        }
+        .form-group .mcq-options div {
+            margin-bottom: 10px;
+        }
+        .form-group.hidden {
+            display: none;
+        }
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function toggleFields() {
+            var questionType = document.querySelector('input[name="question_type"]:checked').value;
+            var mcqFields = document.querySelectorAll('.mcq-fields');
+            var tfFields = document.querySelector('.tf-field');
+
+            if (questionType === 'MCQ') {
+                mcqFields.forEach(function(field) {
+                    field.classList.remove('hidden');
+                });
+                tfFields.classList.add('hidden');
+            } else if (questionType === 'TF') {
+                mcqFields.forEach(function(field) {
+                    field.classList.add('hidden');
+                });
+                tfFields.classList.remove('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var questionTypeFields = document.querySelectorAll('input[name="question_type"]');
+            questionTypeFields.forEach(function(field) {
+                field.addEventListener('change', toggleFields);
+            });
+
+            // Initialize fields based on the current selection
+            toggleFields();
+        });
+
+        function updateCorrectOptionValue(radioId, inputId) {
+            var inputValue = document.getElementById(inputId).value;
+            document.getElementById(radioId).value = inputValue;
+        }
+    </script>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_questions/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="container">
+        <ul>
+            {% for message in messages %}
+                <li style="color: red;" >{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <h1>{% if update %}Update{% else %}Create{% endif %} Question</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            
+            <div class="form-group">
+                <label for="id_text">Question Text</label>
+                {{ form.text }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_question_type">Question Type</label>
+                {{ form.question_type }}
+            </div>
+            
+            <div class="form-group mcq-fields {% if form.instance.question_type != 'MCQ' %}hidden{% endif %}">
+                <label for="id_option1">Option 1</label>
+                {{ form.option1 }}
+            </div>
+            <div class="form-group mcq-fields {% if form.instance.question_type != 'MCQ' %}hidden{% endif %}">
+                <label for="id_option2">Option 2</label>
+                {{ form.option2 }}
+            </div>
+            <div class="form-group mcq-fields {% if form.instance.question_type != 'MCQ' %}hidden{% endif %}">
+                <label for="id_option3">Option 3</label>
+                {{ form.option3 }}
+            </div>
+            <div class="form-group mcq-fields {% if form.instance.question_type != 'MCQ' %}hidden{% endif %}">
+                <label for="id_option4">Option 4</label>
+                {{ form.option4 }}
+            </div>
+            <div class="form-group mcq-fields {% if form.instance.question_type != 'MCQ' %}hidden{% endif %}">
+                <label>Correct Option</label>
+                <div>
+                    <input type="radio" id="correct_option1" name="correct_option" value="{{ form.option1.value }}" onclick="updateCorrectOptionValue('correct_option1', 'id_option1')" {% if form.instance.correct_option == form.option1.value %}checked{% endif %}>
+                    <label for="correct_option1">Option 1</label>
+                </div>
+                <div>
+                    <input type="radio" id="correct_option2" name="correct_option" value="{{ form.option2.value }}" onclick="updateCorrectOptionValue('correct_option2', 'id_option2')" {% if form.instance.correct_option == form.option2.value %}checked{% endif %}>
+                    <label for="correct_option2">Option 2</label>
+                </div>
+                <div>
+                    <input type="radio" id="correct_option3" name="correct_option" value="{{ form.option3.value }}" onclick="updateCorrectOptionValue('correct_option3', 'id_option3')" {% if form.instance.correct_option == form.option3.value %}checked{% endif %}>
+                    <label for="correct_option3">Option 3</label>
+                </div>
+                <div>
+                    <input type="radio" id="correct_option4" name="correct_option" value="{{ form.option4.value }}" onclick="updateCorrectOptionValue('correct_option4', 'id_option4')" {% if form.instance.correct_option == form.option4.value %}checked{% endif %}>
+                    <label for="correct_option4">Option 4</label>
+                </div>
+            </div>
+            
+            <div class="form-group tf-field {% if form.instance.question_type != 'TF' %}hidden{% endif %}">
+                <label for="id_expected_truth_value">Expected Truth Value</label>
+                {{ form.expected_truth_value }}
+            </div>
+            
+            <button type="submit">{% if update %}Update{% else %}Save{% endif %}</button>
+        </form>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}

@@ -1,0 +1,19 @@
+{% extends "student_dashboard/index.html" %}
+
+{% block title %} Exams {% endblock title %}
+
+{% block header %}
+    {% include "student_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "student_exams/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    {% include "student_exams/main.html" %}
+{% endblock main %}
+
+{% block footer %}
+    {% include "student_dashboard/footer.html" %}
+{% endblock footer %}

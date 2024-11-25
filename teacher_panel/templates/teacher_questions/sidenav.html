@@ -1,0 +1,13 @@
+{% load static %}
+<div class="admin_profile">
+    <img src="{% static "images/teacher.png" %}"/>
+    <h2>{{ teacher.name }}</h2>
+    <h3 style="color: gray; text-align: center;">( Teacher )</h3>
+</div>
+<br/>
+<ul class="sections">
+    <li><a href="{% url "teacher_dashboard" teacher.pk %}">Dashboard</a></li>
+    <li><a href="{% url "teacher_exams" teacher.pk %}">Exams</a></li>
+    <li><a href="{% url "teacher_questions" teacher.pk %}"  class="current_nav">Questions</a></li>
+    <li><a href="{% url "teacher_results" teacher.pk %}">Results</a></li>
+</ul>

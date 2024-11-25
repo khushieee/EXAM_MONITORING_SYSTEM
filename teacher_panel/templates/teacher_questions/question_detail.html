@@ -1,0 +1,142 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Question Details {% endblock title %}
+{% block head %}
+<style>
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        line-height: 1.6;
+    }
+    .container {
+        width: 70%;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
+    .container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #4a4a4a;
+    }
+    .card {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .card h2 {
+        margin-top: 0;
+        color: #333;
+        font-size: 20px;
+    }
+    .question-type {
+        font-weight: bold;
+        color: #555;
+    }
+    .option {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+    .expected-answer,
+    .expected-truth-answer {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #4CAF50;
+        border-radius: 4px;
+        background-color: #E8F5E9;
+        font-weight: bold;
+    }
+    .button-group {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .button-group a {
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        text-align: center;
+        font-size: 14px;
+        width: 48%;
+        display: block;
+    }
+    .update-button {
+        background-color: #008CBA;
+    }
+    .update-button:hover {
+        background-color: #007B9E;
+    }
+    .delete-button {
+        background-color: #f44336;
+    }
+    .delete-button:hover {
+        background-color: #e53935;
+    }
+</style>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_questions/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+<div class="container">
+    <h1>Question Details</h1>
+    <div class="card">
+        <h2>{{ question.text }}</h2>
+        <p class="question-type">Type: {{ question.get_question_type_display }}</p>
+        
+        {% if question.question_type == 'MCQ' %}
+            {% if question.option1 %}
+            <div class="option"><strong>Option 1:</strong> {{ question.option1 }}</div>
+            {% endif %}
+            {% if question.option2 %}
+            <div class="option"><strong>Option 2:</strong> {{ question.option2 }}</div>
+            {% endif %}
+            {% if question.option3 %}
+            <div class="option"><strong>Option 3:</strong> {{ question.option3 }}</div>
+            {% endif %}
+            {% if question.option4 %}
+            <div class="option"><strong>Option 4:</strong> {{ question.option4 }}</div>
+            {% endif %}
+            <div class="expected-answer"><strong>Correct Option:</strong>
+                {% if question.correct_option == question.option1 %}
+                1
+                {% elif question.correct_option == question.option2 %}
+                2
+                {% elif question.correct_option == question.option3 %}
+                3
+                {% else %}
+                4
+                {% endif %}
+            </div>
+        {% elif question.question_type == 'TF' %}
+            <div class="expected-truth-answer"><strong>Expected Truth Value:</strong> {{ question.expected_truth_value|yesno:"True,False" }}</div>
+        {% endif %}
+    </div>
+
+    <div class="button-group">
+        <a href="{% url 'teacher_question_update' teacher_id=teacher.pk question_id=question.pk %}" class="update-button">Update</a>
+        <a href="{% url 'teacher_question_delete' teacher_id=teacher.pk question_id=question.pk %}" class="delete-button">Delete</a>
+    </div>
+</div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: #0056b3;
+            width: 95%;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-right {
+            margin-left: auto;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .description {
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .description h2 {
+            font-size: 3rem;
+            color: #333;
+        }
+
+        .description p {
+            font-size: 1.4rem;
+            color: #555;
+        }
+
+        .cta {
+            margin-top: 1rem;
+        }
+
+        .cta .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .cta .btn:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="nav-left">
+                <li><a href="{% url 'landingpage' %}">Home</a></li>
+                <li><a href="{% url 'login_teacher' %}">Teacher</a></li>
+                <li><a href="{% url 'login_student' %}">Student</a></li>
+                <li><a href="{% url 'dashboard' %}">Admin</a></li>
+            </ul>
+            <ul class="nav-right">
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+        <h1>Welcome to Exam Monitoring System</h1>
+    </header>
+    <main>
+        <section class="description" id="about">
+            <h2>Test Your Skills & Become a Master</h2>
+            <p>
+                Our Exam Monitoring System provides a comprehensive solution to monitor and manage exams efficiently.
+                With features tailored for teachers, students, and administrators, our app ensures a seamless and secure
+                examination process.
+            </p>
+        </section>
+        <h3>Start Your Journey Here: </h3>
+        <section class="cta">
+            <a href="{% url 'dashboard' %}" class="btn">Get Started</a>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+{% extends "student_dashboard/index.html" %}
+
+{% block title %} Exam Detail {% endblock %}
+
+{% block head %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .container h1 {
+        text-align: center;
+        color: #333;
+    }
+    .exam-details {
+        margin: 20px 0;
+        line-height: 1.6;
+    }
+    .exam-details p {
+        font-size: 1.1em;
+        color: #555;
+    }
+    .exam-details strong {
+        color: #333;
+    }
+    .icon {
+        margin-right: 8px;
+    }
+    .back-button, .start-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .back-button:hover, .start-button:hover {
+        background-color: #45a049;
+    }
+    .expired-status {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+    {% include "student_dashboard/header.html" %}
+{% endblock %}
+
+{% block sidenav %}
+    {% include "student_exams/sidenav.html" %}
+{% endblock %}
+
+{% block main %}
+{% load custom_filters %}
+<div class="container">
+    <h1>Exam Details</h1>
+    <div class="exam-details">
+        <p><strong>Name:</strong> {{ exam.name }}</p>
+        <p><strong><i class="fas fa-calendar-alt icon"></i>Date:</strong> {{ exam.date|date:"M d, Y" }}</p>
+        <p><strong><i class="fas fa-clock icon"></i>Start Time:</strong> {{ exam.start_time|date:"h:i A" }}</p>
+        <p><strong><i class="fas fa-clock icon"></i>Duration:</strong> {{ exam.duration }} Minutes</p>
+        <p><strong><i class="fas fa-clock icon"></i>End Time:</strong> {{ exam.start_time|add_minutes:exam.duration|date:"h:i A" }}</p>
+        <p><strong><i class="fas fa-question icon"></i>Number of Questions:</strong> {{ total_questions }}</p>
+        <p><strong><i class="fas fa-align-left icon"></i>Description:</strong> {{ exam.description }}</p>
+        {% if attempted %}
+            <p class="expired-status">You have already taken this exam.</p>
+        {% elif exam.date|is_past_date %}
+            <p class="expired-status">This exam has expired.</p>
+        {% elif exam.date|is_future_date %}
+            <p class="expired-status">This exam can only be taken at {{ exam.date }}.</p>
+        {% elif exam.date|is_today %}
+            {% with exam_end_time=exam.start_time|add_minutes:exam.duration %}
+            {% if exam.date|is_future_time:exam.start_time %}
+                <p class="expired-status">This exam can only be taken at {{ exam.start_time }}.</p>
+            {% elif exam.date|is_past_time:exam_end_time %}
+                <p class="expired-status">This exam has expired. It could be taken today between {{ exam.start_time }} and {{ exam.start_time|add_minutes:exam.duration|date:"h:i A" }} </p>
+            {% else %}
+                <a href="{% url 'student_exam_start' student.pk exam.pk %}" class="start-button">Start Exam</a>
+            {% endif %}
+            {% endwith %}
+       {% endif %}
+    </div>
+    <a href="{% url 'student_exams' student.pk %}" class="back-button">Back to Exams</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include "student_dashboard/footer.html" %}
+{% endblock %}

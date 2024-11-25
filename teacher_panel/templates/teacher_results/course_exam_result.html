@@ -1,0 +1,82 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Students Performance {% endblock title %}
+
+{% block head %}
+<style>
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1em;
+        min-width: 400px;
+    }
+    .table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+    .table th, .table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+    .table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
+    .table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+    .table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+</style>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_results/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+<div class="container">
+    <h1>Students Performance</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Total Correct Answers</th>
+                <th>Total Wrong Answers</th>
+                <th>Total Attempted</th>
+                <th>Percentage Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.student.name }}</td>
+                <td>{{ student.total_correct_answers }}</td>
+                <td>{{ student.total_wrong_answers }}</td>
+                <td>{{ student.total_attempted }}</td>
+                <td>{{ student.percentage_score }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}

@@ -1,0 +1,84 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Select Exam {% endblock title %}
+
+{% block head %}
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #4a4a4a;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+        select {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_questions/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <h1>Select Exam</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.exam.label_tag }} {{ form.exam }}
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}
+    

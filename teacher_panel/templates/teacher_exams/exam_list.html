@@ -1,0 +1,109 @@
+{% extends "teacher_dashboard/index.html" %}
+
+{% block title %} Exams {% endblock title %}
+
+{% block head %}
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #4a4a4a;
+        }
+        .add-exam {
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .add-exam:hover {
+            background-color: #0056b3;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .card-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .card-buttons a {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .edit-button {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+{% endblock head %}
+
+{% block header %}
+    {% include "teacher_dashboard/header.html" %}
+{% endblock header %}
+
+{% block sidenav %}
+    {% include "teacher_exams/sidenav.html" %}
+{% endblock sidenav %}
+
+{% block main %}
+    <div class="container">
+        <h1>Exam List</h1>
+        <a href="{% url 'teacher_exam_create' teacher.pk %}" class="add-exam">Add New Exam</a>
+        <ul>
+            {% for exam in exams %}
+                <li class="card">
+                    <h3><a href="{% url 'teacher_exam_detail' teacher.pk exam.pk %}">{{ exam.name }}</a></h3>
+                    <div class="card-buttons">
+                        <a href="{% url 'teacher_exam_update' teacher.pk exam.pk %}" class="edit-button">Edit</a>
+                        <a href="{% url 'teacher_exam_delete' teacher.pk exam.pk %}" class="delete-button">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {% include "teacher_dashboard/footer.html" %}
+{% endblock footer %}
